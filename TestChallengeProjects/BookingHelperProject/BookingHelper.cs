@@ -1,25 +1,21 @@
-﻿namespace TestChallengeProjects
+﻿using TestChallengeProjects.BookingHelperProject.Repository;
+
+namespace TestChallengeProjects
 {
     public static class BookingHelper
     {
-        public static string OverlappingBookingsExist(Booking booking)
+        public static string OverlappingBookingsExist(Booking currentBooking, IBookingRepository bookingRepository)
         {
-            if (booking.Status == "Cancelled")
+            if (currentBooking.Status == "Cancelled")
                 return string.Empty;
 
-            var unitOfWork = new UnitOfWork();
-            var bookings =
-                unitOfWork.Query<Booking>()
-                    .Where(
-                        b => b.Id != booking.Id && b.Status != "Cancelled");
+            var activeBookings = bookingRepository.GetActiveBookings(currentBooking);
 
             var overlappingBooking =
-                bookings.FirstOrDefault(
-                    b =>
-                        booking.ArrivalDate >= b.ArrivalDate
-                        && booking.ArrivalDate < b.DepartureDate
-                        || booking.DepartureDate > b.ArrivalDate
-                        && booking.DepartureDate <= b.DepartureDate);
+                activeBookings.FirstOrDefault(
+                    ab =>
+                        currentBooking.ArrivalDate < ab.DepartureDate
+                        && ab.ArrivalDate < currentBooking.DepartureDate);
 
             return overlappingBooking == null ? string.Empty : overlappingBooking.Reference;
         }
