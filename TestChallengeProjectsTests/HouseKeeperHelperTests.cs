@@ -56,7 +56,7 @@ namespace TestChallengeProjectsTests
                            .Returns(_houseKeeperList.AsQueryable());
 
             _mockStatementGenerator.Setup(st => st.SaveStatement(_houseKeeper.Oid, _houseKeeper.FullName, _statementDate))
-                       .Returns(_statementFilename);
+                                   .Returns(_statementFilename);
         }
         #endregion
 
