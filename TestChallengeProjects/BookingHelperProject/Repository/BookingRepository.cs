@@ -8,6 +8,7 @@
         {
             _unitOfWork = unitOfWork;
         }
+
         public IQueryable<Booking> GetActiveBookings(Booking booking)
         {
             var bookings =
