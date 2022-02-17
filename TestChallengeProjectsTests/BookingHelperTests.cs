@@ -53,14 +53,14 @@ namespace TestChallengeProjectsTests
                 DepartureDate = _existingBooking.DepartureDate.AddDays(days),
             };
 
-            _mockBookingRepository.Setup(m => m.GetActiveBookings(currentBooking)).Returns(_activeBookings.AsQueryable);
+            _mockBookingRepository.Setup(m => m.GetActiveBookings(currentBooking.Id)).Returns(_activeBookings.AsQueryable);
 
             //Act
             var result = BookingHelper.OverlappingBookingsExist(currentBooking, _mockBookingRepository.Object);
 
             //Assert
             Assert.NotNull(result);
-            _mockBookingRepository.Verify(m => m.GetActiveBookings(currentBooking), Times.Once);
+            _mockBookingRepository.Verify(m => m.GetActiveBookings(currentBooking.Id), Times.Once);
             Assert.Equal(string.Empty, result);
         }
 
@@ -78,14 +78,14 @@ namespace TestChallengeProjectsTests
                 DepartureDate = _existingBooking.DepartureDate.AddDays(moveDepartureDays),
             };
 
-            _mockBookingRepository.Setup(m => m.GetActiveBookings(currentBooking)).Returns(_activeBookings.AsQueryable);
+            _mockBookingRepository.Setup(m => m.GetActiveBookings(currentBooking.Id)).Returns(_activeBookings.AsQueryable);
 
             //Act
             var result = BookingHelper.OverlappingBookingsExist(currentBooking, _mockBookingRepository.Object);
 
             //Assert
             Assert.NotNull(result);
-            _mockBookingRepository.Verify(f => f.GetActiveBookings(currentBooking), Times.Once);
+            _mockBookingRepository.Verify(f => f.GetActiveBookings(currentBooking.Id), Times.Once);
             Assert.Equal(_existingBooking.Reference, result);
         }
 

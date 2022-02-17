@@ -9,12 +9,14 @@
             _unitOfWork = unitOfWork;
         }
 
-        public IQueryable<Booking> GetActiveBookings(Booking booking)
+        public IQueryable<Booking> GetActiveBookings(int? excludedBookingId = null)
         {
             var bookings =
-                    _unitOfWork
-                    .Query<Booking>()
-                    .Where(b => b.Id != booking.Id && b.Status != "Cancelled");
+                    _unitOfWork.Query<Booking>()
+                               .Where(b => b.Id != excludedBookingId && b.Status != "Cancelled");
+
+            if (excludedBookingId.HasValue)
+                bookings = bookings.Where(b => b.Id == excludedBookingId.Value);
 
             return bookings;
         }

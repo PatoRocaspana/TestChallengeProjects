@@ -9,7 +9,7 @@ namespace TestChallengeProjects
             if (currentBooking.Status == "Cancelled")
                 return string.Empty;
 
-            var activeBookings = bookingRepository.GetActiveBookings(currentBooking);
+            var activeBookings = bookingRepository.GetActiveBookings(currentBooking.Id);
 
             var overlappingBooking =
                 activeBookings.FirstOrDefault(
