@@ -104,7 +104,7 @@ namespace TestChallengeProjectsTests
         }
 
         [Fact]
-        public void SendStatementEmails_ThrowExceptionAndReturnFalse_WhenEmailSenderFails()
+        public void SendStatementEmails_ReturnFalse_WhenEmailSenderFails()
         {
             //Arrange
             _mockEmailSender.Setup(es => es.EmailFile(
